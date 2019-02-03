@@ -37,7 +37,7 @@ const database = {
 }
 
 app.get('/', (req, res) => {
-    res.send(database.user);
+    res.send("success");
 })
 
 app.post('/signin', (req, res) => {
