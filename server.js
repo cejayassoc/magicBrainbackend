@@ -9,8 +9,6 @@ const knex = require('knex')({
     }
 });
 
-knex.connect();
-
 const app = express();
 app.use(express.json());
 app.use(cors());
