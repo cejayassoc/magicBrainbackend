@@ -60,7 +60,7 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { email, name, password } = req.body;
-    const hash = bcrypt.hashSync(password, bcryptNodejs.genSaltSync(10));
+    const hash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
     knex.transaction(trx => {
         trx.insert({
                 has: hash,
