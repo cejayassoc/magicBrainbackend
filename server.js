@@ -9,12 +9,10 @@ const knex = require('knex')({
     }
 });
 
-console.log(knex.select('*').from('users'));
-
 const app = express();
 app.use(express.json());
 app.use(cors());
-/*
+
 const database = {
     user: [
         {
@@ -113,16 +111,4 @@ app.put('/image', (req, res) => {
             res.json(entries[0]);
             })
         .catch(err => escape.status(400).json('unable to get entries'))
-})
-*/
-
-app.get('/', (req, res)=> { res.send(database.users) })
-app.post('/signin', signin.handleSignin(db, bcrypt))
-app.post('/register', (req, res) => { register.handleRegister(req, res, db, bcrypt) })
-app.get('/profile/:id', (req, res) => { profile.handleProfileGet(req, res, db)})
-app.put('/image', (req, res) => { image.handleImage(req, res, db)})
-app.post('/imageurl', (req, res) => { image.handleApiCall(req, res)})
-
-app.listen(process.env.PORT || 3000, ()=>{
-    console.log('app is running on port 3000');
 })
