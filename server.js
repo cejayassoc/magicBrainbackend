@@ -5,9 +5,11 @@ const knex = require('knex')({
     client: 'pg',
     connection: {
         connectionString : process.env.DATABASE_URL,
-        ssl: true
+        ssl: true,
     }
 });
+
+knex.connect();
 
 const app = express();
 app.use(express.json());
