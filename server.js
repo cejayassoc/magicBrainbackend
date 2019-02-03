@@ -4,10 +4,8 @@ const bcrypt = require('bcrypt');
 const knex = require('knex')({
     client: 'pg',
     connection: {
-        host : '127.0.0.1',
-        user : 'postgres',
-        password : 'sdfga123',
-        database : 'magicbrain'
+        host : process.env.DATABASE_URL,
+        ssl: true
     }
 });
 
