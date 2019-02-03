@@ -5,11 +5,11 @@ const knex = require('knex')({
     client: 'pg',
     connection: {
         host : '127.0.0.1',
-        user : 'nun',
-        password : 'ya',
-        database : 'beeswax'
+        user : 'postgres',
+        password : 'sdfga123',
+        database : 'magicbrain'
     }
-})
+});
 
 console.log(knex.select('*').from('users'));
 
@@ -44,10 +44,10 @@ app.get('/', (req, res) => {
 
 app.post('/signin', (req, res) => {
     knex
-        .select('email', 'hash').from('login')
+        .select('email', 'has').from('login')
         .where('email', '=', req.body.email)
         .then(data => {
-            const isValid = bcrypt.compareSync(req.body.passwod, data[0].hash);
+            const isValid = bcrypt.compareSync(req.body.password, data[0].has);
             if (isValid) {
                 return(
                     knex
@@ -64,14 +64,12 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { email, name, password } = req.body;
-    const hash = bcrypt.hashSync(password);
-    knex
-        .transaction(trx => {
-        trx
-            .insert({
-                hash: hash,
+    const hash = bcrypt.hashSync(password, 10);
+    knex.transaction(trx => {
+        trx.insert({
+                has: hash,
                 email: email 
-                })
+            })
             .into('login')
             .returning('email')
             .then(loginEmail => {
@@ -89,8 +87,7 @@ app.post('/register', (req, res) => {
                  .then(trx.commit)
                  .catch(trx.rollback)
             })
-        .catch(err => res.status(400))
-
+        .catch(err => res.status(400).json('unable to register'));
 })
 
 app.get('/profile/:id', (req, res) => {
