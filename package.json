@@ -1,0 +1,18 @@
+{
+  "name": "magicbrainapi",
+  "version": "1.0.0",
+  "description": "Backend for magic brain",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "knex": "^0.16.3",
+    "pg": "^7.8.0"
+  }
+}
