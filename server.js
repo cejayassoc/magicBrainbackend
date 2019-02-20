@@ -1,4 +1,30 @@
-const express = require('express');
+<?php 
+/*QUERY THE USER DATABASE AND RETURN THE RESULTS AS AN ARRAY OF USERS. */
+require_once($_SERVER["DOCUMENT_ROOT"].'/objects/functions_queries.php'); //functions file, includes database connection
+  //query from functions file: function query_by($the_table,$the_filters, $the_sort)
+$_SESSION['db_name'] = "marketin_global_db";
+    //bind to $name
+echo "Accessed Login Encrypter";
+$stmt= query_by('user_login','', '');
+
+ $result_array = Array();
+$i=0;
+    while(mysqli_fetch_assoc($stmt)) {
+			foreach ($stmt as $key => $value){
+				
+        $result_array[$i][$key] = $value;
+				if($key=="ID"){$i++;}
+			};
+    }
+/* FYI, THIS IS WHAT MY ARRAY LOOKS LIKE:
+Array ( [0] => Array ( [ID] => 1 [email] => design@cejay.com [username] => lisab [user_permissions] => ALL [password] => ******* [country] => Panama [multi_country] => y ) )
+
+Array ( [1] => Array ( [ID] => 2 [email] => candeeg@cejayassoc.com [username] => candeeg [user_permissions] => ALL [password] => ****** [country] => Panama [multi_country] => y ) ) 
+*/
+    //convert the PHP array into JSON format, so it works with javascript
+    if ($json_array = json_encode($result_array)) {echo "<br>array succes:";}else {echo "Failed to make array";}
+?>
+    const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcrypt-nodejs');
 const knex = require('knex')({
@@ -12,8 +38,8 @@ const knex = require('knex')({
 const app = express();
 app.use(express.json());
 app.use(cors());
-
-const database = {
+var arrayObjects = <?php echo $json_array; ?> /*RESULTS OF QUERY, ARRAY OF USERS*/
+/*const database = {
     user: [
         {
             id: '123',
@@ -33,7 +59,7 @@ const database = {
         }
     ]
 }
-
+*/
 app.get('/', (req, res) => {
     res.send('It is working!');
 })
